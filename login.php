@@ -92,12 +92,12 @@ if(isset($_SESSION['studentId'])){header("location: home.php");}
             <form action="action.php" method="post">
               <label for="studentId">studentID</label>
               <br>
-              <input type="text" name="studentId" placeholder="輸入學號">
+              <input type="text" name="studentId" placeholder="輸入學號" pattern=".{9,9}">
               <input type="hidden" name="action" value="log_in">
               <br>
               <label for="password">password</label>
               <br>
-              <input type="password" name="password" placeholder="密碼">
+              <input type="password" name="password" placeholder="密碼" pattern="(?=.*\d)(?=.*[a-z]).{8,}">
               <br><br>
               <button type="submit">submit</button>
             </form>
