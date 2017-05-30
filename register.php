@@ -1,7 +1,7 @@
 <?php 
 require("function.php");
 $student =check_login(false);//if need to force login pass in true not for false
-if($student ==null){header("location: home.php");}
+if(isset($_SESSION['studentId'])){header("location: home.php");}
  ?>
 <!DOCTYPE html>
 <html lang="en">

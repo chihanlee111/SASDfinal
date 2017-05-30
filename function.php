@@ -150,7 +150,6 @@ function check_temp_leave(){
 function insert_into_current($seatId, $studentId){
 	$conn = make_db_connection();
 	$result = $conn->query("INSERT INTO currentUser(studentId , seatId) VALUE ('$studentId , $seatId')");
-
 }
 function delete_from_current($studentId){
 	$user = get_student_current_status($studentId);
