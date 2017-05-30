@@ -18,7 +18,7 @@ function show_error($message) {
     header('location:/error.php');
     exit();
 }
-function check_login($force){//force is true if need to force login
+function check_login($force){//force is true if need to force logi
 	if(!isset($_SESSION['studentId'])){
 		if($force){header("location: login.html");}
 		return;
