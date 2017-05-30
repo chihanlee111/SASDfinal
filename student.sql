@@ -41,8 +41,7 @@ CREATE TABLE `student` (
 INSERT INTO `student` (`studentId`, `studentName`, `email`, `password`, `studentClass`) VALUES
 ('ff', 'un_know', 'ffff@vcc.c', 'ff', 'un_know'),
 ('N11111111', 'un_know', 'cc@gg.u', 'a8520123', 'un_know'),
-('', 'un_know', '', 'fffffff', 'un_know'),
-('B10409011', 'un_know', 'ccc@gmail.com', 'a8520123', 'un_know');
+('', 'un_know', '', 'fffffff', 'un_know');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
