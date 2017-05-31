@@ -92,20 +92,20 @@ if(isset($_SESSION['studentId'])){header("location: home.php");}
             <form action="action.php" method="post">
               <label for="studentId">studentID</label>
               <br>
-              <input type="text" name="studentId" placeholder="輸入學號" pattern=".{9,9}">
+              <input type="text" name="studentId" placeholder="輸入學號" pattern=".{9,9}" required title="ex. B10000001">
               <br>
-              <label for="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}">password</label>
+              <label for="password">password</label>
               <br>
-              <input type="password" name="password" placeholder="密碼">
+              <input type="password" name="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" placeholder="密碼" required title="Must contain at least one number and one letter, and at least 8 or more characters">
               <br>
               <label for="password2">password_check</label>
               <br>
-              <input type="password2" name="re_password" placeholder="確認密碼">
+              <input type="password" name="re_password" placeholder="確認密碼" required>
               <br>
               <label for="email">email</label>
               <br>
               <input type="hidden" name="action" value="register">
-              <input type="email" name="email" placeholder="信箱">
+              <input type="email" name="email" pattern=".{1,}" placeholder="信箱" required>
               <br><br>
               <button type="submit">submit</button>
             </form>

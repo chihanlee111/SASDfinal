@@ -1,4 +1,4 @@
-<?php 
+<?php //表單處理
 require("function.php");
 if(!isset($_SESSION['studentId'])){//student 登入之前
 	switch($_POST['action']){
