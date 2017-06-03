@@ -1,0 +1,26 @@
+.picture{
+	height: 100px;
+	width:1140px;
+	margin-left:-15px;
+}
+
+
+.div1{
+	height:600px;
+	margin-top: 10px;
+	margin-bottom:10px;
+	background-color: #008800;
+	border:1px black solid;"
+}
+
+.div2{
+	height:600px;
+	margin-top: 10px;
+	margin-bottom:10px;
+	border: 1px black solid;
+}
+
+.div3{
+	border: 2px black solid;
+	background-color: #AAAAAA;
+}

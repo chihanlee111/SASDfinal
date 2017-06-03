@@ -100,7 +100,7 @@ function get_seat_by_ColRow($dorm,$seatColRow){
 	}
 	return $seat;
 }
-function modify_seat_status($dorm, $seatColRow, $seatStatus){//seatstatus <available or taken>
+function modify_seat_status($seatId, $seatStatus){//seatstatus <available or taken>
 	$conn = make_db_connection();
 	$dorm = real_escape_string($dorm);
 	$seatId = real_escape_string($seatId);
@@ -112,15 +112,11 @@ function modify_seat_status($dorm, $seatColRow, $seatStatus){//seatstatus <avail
 			$status = 1;
 			break;
 	}
-	$result=$conn->query("UPDATE seat SET status='$status' WHERE seatColRow='$seatColRow' AND dorm='$dorm'");
+	$result=$conn->query("UPDATE seat SET status='$status' WHERE seatId='$seatId'");
 	if($result->num_rows !=1){
 		return ['message' => "ERROR"];
 	}
 	return true;
-}
-function modify_seat_status($seatId, $seatStatus){
-	$seat = get_seat_by_seatId($seatId);
-	return modify_seat_status($seat['dorm'], $seat['seatColRow'],$seatStatus);
 }
 function insert_into_current($seatId, $studentId){//not yet define status
 	$conn = make_db_connection();

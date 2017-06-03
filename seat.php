@@ -20,7 +20,7 @@ ul.seatCharts-legendList {padding-left: 0px;}
     </style>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="jquery.seat-charts.js"></script> 
+<script type="text/javascript" src="js/jquery.seat-charts.js"></script> 
 <body>
     <form action="action.php" method="post">
         <input type="hidden" name="action" value="studentSelectSeat">

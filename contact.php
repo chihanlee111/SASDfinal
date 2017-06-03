@@ -19,7 +19,6 @@ $student =check_login(false);//if need to force login pass in true not for false
 
    
     <link href="/Content/AssetsBS3/examples/jumbotron-narrow.css" rel="stylesheet">
-
     
     <script src="/Scripts/AssetsBS3/ie-emulation-modes-warning.js"></script>
   
