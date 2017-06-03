@@ -1,10 +1,5 @@
 <?php 
 session_start();
-class seat{
-	public $seatId;
-	public $seatCol;
-	public $seatRow;
-}
 function make_db_connection(){
 	$conn = new mysqli('localhost' , 'root' , '' , 'mysql');
 	$conn->query('SET NAMES utf8;');
@@ -58,7 +53,6 @@ function get_student_by_studentId($studentId){
 }
 function register($studentId, $email, $password, $studentClass, $studentName, $re_password){
 	if($password != $re_password){
-		echo "pnmer";
 		return ['message' => "PASSWORD NOT MATCH"];
 	}
 	//do pattern check
@@ -68,7 +62,6 @@ function register($studentId, $email, $password, $studentClass, $studentName, $r
 		return ['message' => "EMAIL ALREADY EXISTED"];
 	}
 	$sql = "INSERT INTO student(studentId, studentName, email, password, studentClass) VALUE('$studentId', '$studentName', '$email', '$password', '$studentClass')";
-	echo "sql";
 	$result = $conn->query($sql);
 	if($result !=true){
 		echo $sql;
@@ -77,11 +70,17 @@ function register($studentId, $email, $password, $studentClass, $studentName, $r
 	$student = get_student_by_email($email);
 	return $student;
 }
-function get_student_current_status($studentId){
+function get_unavailable_seat_list($dorm){
 	$conn = make_db_connection();
-	$result = $conn->query("SELECT * FROM currentUser WHERE studentId='$studentId'");
-	$currentStudent = $result->fetch_assoc();
-	return $currentStudent;
+	$dorm = real_escape_string($dorm);
+	$result=$conn->query("SELECT * FROM seat WHERE status = '0' AND dorm='$dorm'");// return all the seat which is unavailable
+	$seatList = array();
+	$i=-1;
+	while($seat = $result->fetch_assoc()){
+		$i++;
+		$seatList[$i] = $seat['seatColRow'];
+	}
+	return $seatList;
 }
 function get_seat_by_seatId($seatId){
 	$conn = make_db_connection();
@@ -92,37 +91,19 @@ function get_seat_by_seatId($seatId){
 	}
 	return $seat;
 }
-function get_available_seat_list(){
+function get_seat_by_ColRow($dorm,$seatColRow){
 	$conn = make_db_connection();
-	$result=$conn->query("SELECT * FROM seat WHERE status = '1'");
-	while($seat = $result->fetch_assoc()){
-
-	}
-}
-function get_seat_by_col_row($dorm, $seatCol, $seatRow){
-	$conn = make_db_connection();
-	$result =$conn->query("SELECT * FROM seat WHERE dorm='$dorm' AND seatCol='$seatCol' AND seatRow='$seatRow'");
+	$seatColRow = real_escape_string($seatColRow);
+	$result =$conn->query("SELECT * FROM seat WHERE dorm='$dorm' AND seatColRow='$seatColRow'");
 	if(($seat=$result->fetch_assoc())==null){
 		return ['message' => "SEAT INDEX ERROR"];
 	}
 	return $seat;
 }
-function student_take_seat($studentId, $seatId){//seat pattern is not sure
-	if(get_student_current_status($studentId) != null){
-		header("location: status.php");//to_modify
-	}
-	modify_seat_status($seatId, "taken");
-	insert_into_current($seatId, $studentId);
-}
-function student_leave_seat($studentId, $seatId){
-	modify_seat_status($seatId, "available");
-
-}
-function student_temp_leave($studentId){
-
-}
-function modify_seat_status($seatId, $seatStatus){//seatstatus <available or taken>
+function modify_seat_status($dorm, $seatColRow, $seatStatus){//seatstatus <available or taken>
 	$conn = make_db_connection();
+	$dorm = real_escape_string($dorm);
+	$seatId = real_escape_string($seatId);
 	switch ($seatStatus) {
 		case 'taken':
 			$status=0;
@@ -131,25 +112,25 @@ function modify_seat_status($seatId, $seatStatus){//seatstatus <available or tak
 			$status = 1;
 			break;
 	}
-	$result=$conn->query("UPDATE seat SET status='$status' WHERE seatId='$seatId'");
+	$result=$conn->query("UPDATE seat SET status='$status' WHERE seatColRow='$seatColRow' AND dorm='$dorm'");
 	if($result->num_rows !=1){
 		return ['message' => "ERROR"];
 	}
 	return true;
 }
-function check_temp_leave(){
-	$conn = make_db_connection();
-	$result = $conn->query("SELECT * FROM currentUser WHERE status = '3';");//status code is not sure
-	while($user = $result->fetch_assoc()){
-		if($user['status'] == 1){//currenttime - startime >= An hour
-			modify_seat_status($user['seatId'], "available");
-			delete_from_current($studentId);
-		}
-	}
+function modify_seat_status($seatId, $seatStatus){
+	$seat = get_seat_by_seatId($seatId);
+	return modify_seat_status($seat['dorm'], $seat['seatColRow'],$seatStatus);
 }
-function insert_into_current($seatId, $studentId){
+function insert_into_current($seatId, $studentId){//not yet define status
 	$conn = make_db_connection();
-	$result = $conn->query("INSERT INTO currentUser(studentId , seatId) VALUE ('$studentId , $seatId')");
+	$result = $conn->query("INSERT INTO currentUser(studentId , seatId , status) VALUE ('$studentId , $seatId', '0')");
+}
+function get_student_current_status($studentId){
+	$conn = make_db_connection();
+	$result = $conn->query("SELECT * FROM currentUser WHERE studentId='$studentId'");
+	$currentStudent = $result->fetch_assoc();
+	return $currentStudent;
 }
 function delete_from_current($studentId){
 	$user = get_student_current_status($studentId);
@@ -158,13 +139,18 @@ function delete_from_current($studentId){
 }
 function insert_into_history($current){
 	$conn = make_db_connection();
-	$result = $conn->query("INSERT INTO historyLog(studentId, seatId, startTime) VALUE ('{$current['studentId']}' , '{$current['seatId']}' , '{$current['starttime']}')");
+	$result = $conn->query("INSERT INTO UseHistory(studentId, seatId, startTime) VALUE ('{$current['studentId']}' , '{$current['seatId']}' , '{$current['starttime']}')");
 }
-
-
-
-
-
+function check_temp_leave(){
+	$conn = make_db_connection();
+	$result = $conn->query("SELECT * FROM currentUser WHERE status = '3';");//status code is not sure
+	while($user = $result->fetch_assoc()){
+		if($user['status'] == 1 AND false){//currenttime - startime >= An hour
+			modify_seat_status($seatId,"available");
+			delete_from_current($studentId);
+		}
+	}
+}
  ?>
 
 

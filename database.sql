@@ -36,13 +36,20 @@ CREATE TABLE `student` (
 
 --
 -- 資料表的匯出資料 `student`
---
-
-INSERT INTO `student` (`studentId`, `studentName`, `email`, `password`, `studentClass`) VALUES
-('ff', 'un_know', 'ffff@vcc.c', 'ff', 'un_know'),
-('N11111111', 'un_know', 'cc@gg.u', 'a8520123', 'un_know'),
-('', 'un_know', '', 'fffffff', 'un_know');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+CREATE TABLE `usehistory` (
+  `studentId` varchar(20) NOT NULL,
+  `seatId` int(11) NOT NULL,
+  `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `endTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `currentuser` (
+  `studentId` varchar(20) NOT NULL,
+  `seatId` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

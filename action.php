@@ -24,10 +24,25 @@ else{//student 登入之後
 		case 'updateUserInfo':
 			break;
 		case 'studentPickSeat':
-			$_SESSION['seatId']=$seat['seatId'];
+			if(get_student_current_status($_SESSION['studentId']) != null){
+					echo "Already have a seat";
+					header("location: status.php");//to_modify
+			}
+			$seat = get_seat_by_ColRow($dorm ,$_POST['seat']);
+			if($seat['status'] =='0'){//seat is been taken
+				echo "request time out";
+				header("location: home.php");
+			}
+			modify_seat_status($seat['seatId'], "taken");
+			insert_into_current($seat['seatId'], $_SESSION['studentId']);
 			break;
 		case 'studentLeaveSeat':
-			unset($_SESSION['seatId']);
+			if(($user = get_student_current_status($_SESSION['studentId']))==null){
+				echo "You have not take a seat";
+			}
+			modify_seat_status($user['seatId'], "available");
+			delete_from_current($_SESSION['studentId']);
+			insert_into_history($user);
 			break;
 		case 'studentTempLeave':
 			break;
@@ -35,8 +50,7 @@ else{//student 登入之後
 			break;
 		case 'logout':
 			 unset($_SESSION['studentId']);
-			 unset($_SESSION['seatId']);
-			 header('location: home.php');
+			 header('location: login.php');
 			break;
 		default:
 			header('Location: error.php');

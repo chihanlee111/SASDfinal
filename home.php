@@ -1,6 +1,7 @@
 <?php 
 require("function.php");
 $student =check_login(false);//if need to force login pass in true not for false
+check_temp_leave();
  ?>
 <!DOCTYPE html>
 <html lang="en">
