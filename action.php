@@ -13,6 +13,9 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 			// $student = register($_POST['studentId'], $_POST['email'], $_POST['password'], $_POST['studentClass'] ,$_POST['studentName'] , $_POST['re_password']);
 			$student = register($_POST['studentId'], $_POST['email'], $_POST['password'], "un_know","un_know", $_POST['re_password']);
 			break;
+		case 'getSeatList':
+			echo get_unavailable_seat_list();
+			exit();
 	}
 	$_SESSION['studentId']= $student['studentId'];
 	echo "success";
@@ -48,6 +51,10 @@ else{//student 登入之後
 			break;
 		case 'tempLeaveBack':
 			break;
+		case 'getSeatList':
+			$seatJson = get_unavailable_seat_list();
+			echo $seatJson;
+			exit();
 		case 'logout':
 			 unset($_SESSION['studentId']);
 			 header('location: login.php');

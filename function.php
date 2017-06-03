@@ -80,7 +80,7 @@ function get_unavailable_seat_list($dorm){
 		$i++;
 		$seatList[$i] = $seat['seatColRow'];
 	}
-	return $seatList;
+	return json_encode($seatList);
 }
 function get_seat_by_seatId($seatId){
 	$conn = make_db_connection();
