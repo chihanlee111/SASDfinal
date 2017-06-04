@@ -30,11 +30,13 @@ else{//student 登入之後
 			if(get_student_current_status($_SESSION['studentId']) != null){
 					echo "Already have a seat";
 					header("location: status.php");//to_modify
+					exit();
 			}
 			$seat = get_seat_by_ColRow($_POST['dorm'] ,$_POST['seat']);
 			if($seat['status'] =='0'){//seat is been taken
 				echo "request time out";
 				header("location: home.php");
+				exit();
 			}
 			modify_seat_status($seat['seatId'], "taken");
 			insert_into_current($seat['seatId'], $_SESSION['studentId']);
