@@ -11,7 +11,7 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 			break;
 		case 'register'://register
 			// $student = register($_POST['studentId'], $_POST['email'], $_POST['password'], $_POST['studentClass'] ,$_POST['studentName'] , $_POST['re_password']);
-			$student = register($_POST['studentId'], $_POST['email'], $_POST['password'], "un_know","un_know", $_POST['re_password']);
+			$student = register($_POST['studentId'], $_POST['email'], $_POST['password'],$_POST['re_password']);
 			break;
 		case 'getSeatList':
 			echo get_unavailable_seat_list();
@@ -20,7 +20,7 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 	$_SESSION['studentId']= $student['studentId'];
 	echo "success";
 	echo $_SESSION['studentId'];
-	header('Location: home.php');
+	//header('Location: home.php');
 }
 else{//student 登入之後
 	switch ($_POST['action']) {

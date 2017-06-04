@@ -52,7 +52,7 @@ function get_student_by_studentId($studentId){
 	$student = $result->fetch_assoc();
 	return $student;
 }
-function register($studentId, $email, $password, $studentClass, $studentName, $re_password){
+function register($studentId, $email, $password, $re_password){
 	if($password != $re_password){
 		return ['message' => "PASSWORD NOT MATCH"];
 	}
@@ -62,7 +62,7 @@ function register($studentId, $email, $password, $studentClass, $studentName, $r
 		//email is taken
 		return ['message' => "EMAIL ALREADY EXISTED"];
 	}
-	$sql = "INSERT INTO student(studentId, studentName, email, password, studentClass) VALUE('$studentId', '$studentName', '$email', '$password', '$studentClass')";
+	$sql = "INSERT INTO student(studentId , email, password) VALUE('$studentId' , '$email', '$password')";
 	$result = $conn->query($sql);
 	if($result !=true){
 		echo $sql;
