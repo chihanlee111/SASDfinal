@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2017-06-04 11:24:15
+-- 產生時間： 2017-06-04 11:26:35
 -- 伺服器版本: 10.1.21-MariaDB
 -- PHP 版本： 5.6.30
 
@@ -62,7 +62,7 @@ INSERT INTO `seat` (`seatId`, `seatColRow`, `status`, `dorm`) VALUES
 CREATE TABLE `student` (
   `studentId` varchar(20) NOT NULL,
   `email` varchar(40) NOT NULL,
-  `password` int(20) NOT NULL
+  `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
