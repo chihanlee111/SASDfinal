@@ -20,7 +20,7 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 	$_SESSION['studentId']= $student['studentId'];
 	echo "success";
 	echo $_SESSION['studentId'];
-	//header('Location: home.php');
+	header('Location: home.php');
 }
 else{//student 登入之後
 	switch ($_POST['action']) {
@@ -31,7 +31,7 @@ else{//student 登入之後
 					echo "Already have a seat";
 					header("location: status.php");//to_modify
 			}
-			$seat = get_seat_by_ColRow($dorm ,$_POST['seat']);
+			$seat = get_seat_by_ColRow($_POST['dorm'] ,$_POST['seat']);
 			if($seat['status'] =='0'){//seat is been taken
 				echo "request time out";
 				header("location: home.php");

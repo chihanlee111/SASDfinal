@@ -96,7 +96,6 @@ function get_seat_by_seatId($seatId){
 }
 function get_seat_by_ColRow($dorm,$seatColRow){
 	$conn = make_db_connection();
-	$seatColRow = real_escape_string($seatColRow);
 	$result =$conn->query("SELECT * FROM seat WHERE dorm='$dorm' AND seatColRow='$seatColRow'");
 	if(($seat=$result->fetch_assoc())==null){
 		return ['message' => "SEAT INDEX ERROR"];
@@ -105,8 +104,7 @@ function get_seat_by_ColRow($dorm,$seatColRow){
 }
 function modify_seat_status($seatId, $seatStatus){//seatstatus <available or taken>
 	$conn = make_db_connection();
-	$dorm = real_escape_string($dorm);
-	$seatId = real_escape_string($seatId);
+	$seatId = $conn->real_escape_string($seatId);
 	switch ($seatStatus) {
 		case 'taken':
 			$status=0;
@@ -116,14 +114,13 @@ function modify_seat_status($seatId, $seatStatus){//seatstatus <available or tak
 			break;
 	}
 	$result=$conn->query("UPDATE seat SET status='$status' WHERE seatId='$seatId'");
-	if($result->num_rows !=1){
-		return ['message' => "ERROR"];
-	}
 	return true;
 }
 function insert_into_current($seatId, $studentId){//not yet define status.
 	$conn = make_db_connection();
-	$result = $conn->query("INSERT INTO currentuser(studentId , seatId , status) VALUE ('$studentId , $seatId', '0')");
+	$sql = "INSERT INTO currentuser(studentId , seatId , status) VALUE ('$studentId' , '$seatId', '0')";
+	$result = $conn->query($sql);
+	echo $sql;
 }
 function get_student_current_status($studentId){
 	$conn = make_db_connection();

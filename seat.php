@@ -23,8 +23,9 @@ ul.seatCharts-legendList {padding-left: 0px;}
 <script type="text/javascript" src="js/jquery.seat-charts.js"></script> 
 <body>
     <form action="action.php" method="post">
-        <input type="hidden" name="action" value="studentSelectSeat">
-        <input type="hidden" name="seatChoose" id ="seatchose" value ="">
+        <input type="hidden" name="action" value="studentPickSeat">
+        <input type="hidden" name="seat" id ="seatchose" value ="">
+        <input type="hidden" name="dorm" value="2">
 	<div class="demo"> 
        <div id="seat-map"></div> 
     </div> 
