@@ -13,13 +13,15 @@ function show_error($message) {
     header('location:/error.php');
     exit();
 }
-function check_login($force){//force is true if need to force logi
+function check_login($force){//force is true if need to force login
 	if(!isset($_SESSION['studentId'])){
 		if($force){header("location: login.html");}
 		return;
 	}
 	return get_student_by_studentId($_SESSION['studentId']);//$student may got null when force is false
 }
+
+
 function get_student_by_id_password($studentId, $password){//use for login
 	$conn = make_db_connection();
 	$studentId = $conn->real_escape_string($studentId);
@@ -70,6 +72,8 @@ function register($studentId, $email, $password, $studentClass, $studentName, $r
 	$student = get_student_by_email($email);
 	return $student;
 }
+
+
 function get_unavailable_seat_list($dorm){
 	$conn = make_db_connection();
 	$dorm = real_escape_string($dorm);
@@ -118,7 +122,7 @@ function modify_seat_status($seatId, $seatStatus){//seatstatus <available or tak
 	}
 	return true;
 }
-function insert_into_current($seatId, $studentId){//not yet define status
+function insert_into_current($seatId, $studentId){//not yet define status.
 	$conn = make_db_connection();
 	$result = $conn->query("INSERT INTO currentUser(studentId , seatId , status) VALUE ('$studentId , $seatId', '0')");
 }

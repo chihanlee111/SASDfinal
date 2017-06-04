@@ -107,14 +107,13 @@ ul.seatCharts-legendList {padding-left: 0px;}
         }
         function updateSeatList(){
             var xhttp = new XMLHttpRequest();
-            var parm = "username="+user+"&"+"text="+textsend;
-            console.log(parm);
-            xhttp.open("POST", "addboard.php", true);
+            var parm = "action=getSeatList";
+            xhttp.open("POST", "action.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send(parm);
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                
+                    var seatList = JSON.parse(this.responseText);
                 }
             };
         }
