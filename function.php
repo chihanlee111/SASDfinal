@@ -1,7 +1,7 @@
 <?php 
 session_start();
 function make_db_connection(){
-	$conn = new mysqli('localhost' , 'root' , '' , 'mysql');
+	$conn = new mysqli('localhost' , 'root' , '' , 'seatmanager');
 	$conn->query('SET NAMES utf8;');
 	if($conn->connect_error){
 		die("db connect error");
@@ -44,7 +44,6 @@ function get_student_by_email($email){
 	$result = $conn->query("SELECT * FROM student WHERE email='$email'");
 	$student= $result->fetch_assoc();
 	return $student;
-
 }
 function get_student_by_studentId($studentId){
 	$conn = make_db_connection();
@@ -124,26 +123,26 @@ function modify_seat_status($seatId, $seatStatus){//seatstatus <available or tak
 }
 function insert_into_current($seatId, $studentId){//not yet define status.
 	$conn = make_db_connection();
-	$result = $conn->query("INSERT INTO currentUser(studentId , seatId , status) VALUE ('$studentId , $seatId', '0')");
+	$result = $conn->query("INSERT INTO currentuser(studentId , seatId , status) VALUE ('$studentId , $seatId', '0')");
 }
 function get_student_current_status($studentId){
 	$conn = make_db_connection();
-	$result = $conn->query("SELECT * FROM currentUser WHERE studentId='$studentId'");
+	$result = $conn->query("SELECT * FROM currentuser WHERE studentId='$studentId'");
 	$currentStudent = $result->fetch_assoc();
 	return $currentStudent;
 }
 function delete_from_current($studentId){
 	$user = get_student_current_status($studentId);
 	$conn = make_db_connection();
-	$result = $conn->query("DELETE FROM currentUser WHERE studentId='$studentId'");
+	$result = $conn->query("DELETE FROM currentuser WHERE studentId='$studentId'");
 }
 function insert_into_history($current){
 	$conn = make_db_connection();
-	$result = $conn->query("INSERT INTO UseHistory(studentId, seatId, startTime) VALUE ('{$current['studentId']}' , '{$current['seatId']}' , '{$current['starttime']}')");
+	$result = $conn->query("INSERT INTO usehistory(studentId, seatId, startTime) VALUE ('{$current['studentId']}' , '{$current['seatId']}' , '{$current['starttime']}')");
 }
 function check_temp_leave(){
 	$conn = make_db_connection();
-	$result = $conn->query("SELECT * FROM currentUser WHERE status = '3';");//status code is not sure
+	$result = $conn->query("SELECT * FROM currentuser WHERE status = '3';");//status code is not sure
 	while($user = $result->fetch_assoc()){
 		if($user['status'] == 1 AND false){//currenttime - startime >= An hour
 			modify_seat_status($seatId,"available");
