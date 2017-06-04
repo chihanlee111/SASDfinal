@@ -14,7 +14,7 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 			$student = register($_POST['studentId'], $_POST['email'], $_POST['password'],$_POST['re_password']);
 			break;
 		case 'getSeatList':
-			echo get_unavailable_seat_list();
+			echo get_unavailable_seat_list($_POST['dorm']);
 			exit();
 	}
 	$_SESSION['studentId']= $student['studentId'];
@@ -52,7 +52,7 @@ else{//student 登入之後
 		case 'tempLeaveBack':
 			break;
 		case 'getSeatList':
-			$seatJson = get_unavailable_seat_list();
+			$seatJson = get_unavailable_seat_list($_POST['dorm']);
 			echo $seatJson;
 			exit();
 		case 'logout':

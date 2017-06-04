@@ -75,7 +75,7 @@ function register($studentId, $email, $password, $re_password){
 
 function get_unavailable_seat_list($dorm){
 	$conn = make_db_connection();
-	$dorm = real_escape_string($dorm);
+	$dorm = $conn->real_escape_string($dorm);
 	$result=$conn->query("SELECT * FROM seat WHERE status = '0' AND dorm='$dorm'");// return all the seat which is unavailable
 	$seatList = array();
 	$i=-1;

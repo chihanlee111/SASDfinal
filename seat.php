@@ -33,8 +33,8 @@ ul.seatCharts-legendList {padding-left: 0px;}
     </form>
 </body>
 <script type="text/javascript">
-            var firstSeatLabel = 1;
-        
+            var firstSeatLabel  = 1;
+            var dorm = 2;
             $(document).ready(function() {
                 var $cart = $('#selected-seats'),
                     $counter = $('#counter'),
@@ -90,9 +90,8 @@ ul.seatCharts-legendList {padding-left: 0px;}
                     //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
                     sc.get($(this).parents('li:first').data('seatId')).click();
                 });
-
+                updateSeatList(sc);
                 //let's pretend some seats have already been booked
-                sc.get(['1_2', '4_1', '7_1', '7_2']).status('unavailable');
         
         });
 
@@ -106,15 +105,17 @@ ul.seatCharts-legendList {padding-left: 0px;}
             
             return total;
         }
-        function updateSeatList(){
+        function updateSeatList(sc){
             var xhttp = new XMLHttpRequest();
-            var parm = "action=getSeatList";
+            var parm = "action=getSeatList&dorm=2";
             xhttp.open("POST", "action.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send(parm);
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var seatList = JSON.parse(this.responseText);
+                    console.log(this.responseText);
+                    sc.get(seatList).status('unavailable');
                 }
             };
         }
