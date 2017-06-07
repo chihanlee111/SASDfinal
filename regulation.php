@@ -23,13 +23,13 @@ $student =check_login(false);//if need to force login pass in true not for false
     
     <script src="/Scripts/AssetsBS3/ie-emulation-modes-warning.js"></script>
   
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 
   </head>
 
   <body>
 
     <div class="container">
-      <div class="col-lg-12">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <nav>
           <ul class="nav nav-pills pull-right">
             <?php if(isset($_SESSION['studentId'])){ ?>
@@ -48,13 +48,13 @@ $student =check_login(false);//if need to force login pass in true not for false
       </div>
 
      
-      <div class="col-lg-12">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <img src="home.jpg" class="picture">
       </div>
   
 
 
-      <div class="col-lg-2 div1">
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 div1">
         <table>
           <tr>
             <td><a href="home.php" style="color: black;text-decoration:none;">首頁</a></td>
@@ -70,10 +70,10 @@ $student =check_login(false);//if need to force login pass in true not for false
             <td style="color: black">座位圖</td>
             <table>
               <tr>
-                <td><a href="#" style="color: black;text-decoration:none;">&nbsp;&nbsp;&nbsp;-男宿</a></td>
+                <td><a href="male.php" style="color: black;text-decoration:none;">&nbsp;&nbsp;&nbsp;-男宿</a></td>
               </tr>
               <tr>
-                <td><a href="#" style="color: black;text-decoration:none;">&nbsp;&nbsp;&nbsp;-女宿</a></td>
+                <td><a href="female.php" style="color: black;text-decoration:none;">&nbsp;&nbsp;&nbsp;-女宿</a></td>
               </tr>
             </table>
         </table>
@@ -93,7 +93,7 @@ $student =check_login(false);//if need to force login pass in true not for false
 
 
 
-      <div class="col-lg-10 div2">
+      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 div2">
         <h1>國立台灣科技大學自修室使用須知</h1>
         <p>第一條&nbsp;&nbsp;&nbsp;國立台灣科技大學自修室(以下簡稱本室)為維護閱覽秩序，特訂定本規則。</p>
         <p>第二條&nbsp;&nbsp;&nbsp;本室之使用人應具備下列資格：</p>
@@ -114,7 +114,7 @@ $student =check_login(false);//if need to force login pass in true not for false
 
      
 
-      <div class="col-lg-12 div3">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 div3">
         <p>&copy; created by 系統小組team8 </p>
       </div>
 

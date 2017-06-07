@@ -1,0 +1,12 @@
+
+
+1. templeavecheck :
+currenttime - starttime
+
+2. seatmap
+
+update ajax
+
+set form
+
+3. 

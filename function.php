@@ -102,6 +102,15 @@ function get_seat_by_ColRow($dorm,$seatColRow){
 	}
 	return $seat;
 }
+function get_unavailable_seat_count($dorm){
+	$conn = make_db_connection();
+	$result=$conn->query("SELECT * FROM seat WHERE dorm='$dorm' AND status='0';");
+	$i=0;
+	while($seat=$result->fetch_assoc()){
+		$i++;
+	}
+	return $i;
+}
 function modify_seat_status($seatId, $seatStatus){//seatstatus <available or taken>
 	$conn = make_db_connection();
 	$seatId = $conn->real_escape_string($seatId);
@@ -115,6 +124,10 @@ function modify_seat_status($seatId, $seatStatus){//seatstatus <available or tak
 	}
 	$result=$conn->query("UPDATE seat SET status='$status' WHERE seatId='$seatId'");
 	return true;
+}
+function modify_user_status($studentId){
+	$conn = make_db_connection();
+	$result = $conn->query("UPDATE currentuser SET status='$status' WHERE studentId='$studentId' ");
 }
 function insert_into_current($seatId, $studentId){//not yet define status.
 	$conn = make_db_connection();

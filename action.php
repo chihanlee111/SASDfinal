@@ -16,6 +16,13 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 		case 'getSeatList':
 			echo get_unavailable_seat_list($_POST['dorm']);
 			exit();
+		case 'getSeatCount':
+			$all2seat = 100;
+			$all3seat = 100;
+			$seat_2_count = $all2seat - get_unavailable_seat_list('2');
+			$seat_3_count = $all3seat - get_unavailable_seat_list('3');
+			$countList = array($seat_2_count , $seat_3_count);
+			echo json_encode($countList);
 	}
 	$_SESSION['studentId']= $student['studentId'];
 	echo "success";
@@ -50,13 +57,24 @@ else{//student 登入之後
 			insert_into_history($user);
 			break;
 		case 'studentTempLeave':
+			modify_user_status($_SESSION['studentId']);
+			header("location: home.php");
 			break;
 		case 'tempLeaveBack':
+			modify_user_status($_SESSION['studentId']);
+			header("location: home.php");
 			break;
 		case 'getSeatList':
 			$seatJson = get_unavailable_seat_list($_POST['dorm']);
 			echo $seatJson;
 			exit();
+		case 'getSeatCount':
+			$all2seat = 100;
+			$all3seat = 100;
+			$seat_2_count = $all2seat - get_unavailable_seat_list('2');
+			$seat_3_count = $all3seat - get_unavailable_seat_list('3');
+			$countList = array($seat_2_count , $seat_3_count);
+			echo json_encode($countList);
 		case 'logout':
 			 unset($_SESSION['studentId']);
 			 header('location: login.php');

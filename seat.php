@@ -116,6 +116,7 @@ ul.seatCharts-legendList {padding-left: 0px;}
                     var seatList = JSON.parse(this.responseText);
                     console.log(this.responseText);
                     sc.get(seatList).status('unavailable');
+                    console.log(seatList.length);//unavailable seat count
                 }
             };
         }
