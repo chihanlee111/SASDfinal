@@ -1,0 +1,25 @@
+.picture{
+	height: 100px;
+	width:102.75%;
+	margin-left:-15px;
+}
+
+
+.div1{
+	height:600px;
+	margin-top: -5px;
+	background-color: #FADAD8;
+	border:1px black solid;"
+}
+
+.div2{
+	height:600px;
+	margin-top: -5px;
+	background-color: white;
+	border: 0.5px black solid;
+}
+
+.div3{
+	border: 0.5px black solid;
+	background-color: #9baec8;
+}

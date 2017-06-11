@@ -15,7 +15,7 @@ function show_error($message) {
 }
 function check_login($force){//force is true if need to force login
 	if(!isset($_SESSION['studentId'])){
-		if($force){header("location: login.html");}
+		if($force){header("location: login.php");}
 		return;
 	}
 	return get_student_by_studentId($_SESSION['studentId']);//$student may got null when force is false
