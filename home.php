@@ -115,10 +115,10 @@ check_temp_leave();
               <h1>自修室剩餘座位數</h1>
               <br>
               <br>
-              <label for="male_seat" style="font-size: 2em">男宿座位: 人</label>
+              <label for="male_seat" style="font-size: 2em" id="dorm2count">男宿座位: 人</label>
               <br>
               <br>
-              <label for="female_seat" style="font-size: 2em">女宿座位:30人</label>
+              <label for="female_seat" style="font-size: 2em" id = "dorm3count">女宿座位:30人</label>
             </form>
           </div>
         
@@ -134,12 +134,13 @@ check_temp_leave();
 
 
     <script>
-    updateSeatList(null);
-      function updateSeatList(sc){
+    updateSeatList(null , '2');
+    updateSeatList(null , '3');
+      function updateSeatList(sc , dorm){
             var dorm2_allseat = 30;
             var dorm3_allseat = 30;
             var xhttp = new XMLHttpRequest();
-            var parm = "action=getSeatList&dorm=2";
+            var parm = "action=getSeatList&dorm="+dorm;
             xhttp.open("POST", "action.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send(parm);
@@ -147,7 +148,14 @@ check_temp_leave();
                 if (this.readyState == 4 && this.status == 200) {
                     var seatList = JSON.parse(this.responseText);
                     console.log(this.responseText);
-                    console.log(seatList.length);//unavailable seat count
+                    if (dorm == '2'){
+                        var seat = dorm2_allseat - parseInt(seatList.length , '10');
+                          document.getElementById('dorm2count').innerText = "男宿座位:"+seat+" 人";
+                    }
+                    else{
+                          var seat = dorm3_allseat - parseInt(seatList.length , '10');
+                          document.getElementById('dorm3count').innerText = "女宿座位:"+seat+ " 人";
+                    }
                 }
             };
         }
