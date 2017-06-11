@@ -10,7 +10,7 @@ div.seatCharts-seat.available {background-color: #B9DEA0;}
 div.seatCharts-seat.focused {background-color: #000000;border: none;} 
 div.seatCharts-seat.selected {background-color: #E6CAC4;} 
 div.seatCharts-seat.unavailable {background-color: #472B34;cursor: not-allowed;} 
-div.seatCharts-container {width: 400px;padding: 20px;} 
+div.seatCharts-container {width: 400px;padding: 20px; margin-left: 20px;} 
 div.seatCharts-legend {padding-left: 0px;position: absolute;bottom: 16px;} 
 ul.seatCharts-legendList {padding-left: 0px;} 
 .seatCharts-legendItem{float:left; width:90px;margin-top: 10px;line-height: 2;} 
@@ -27,7 +27,7 @@ ul.seatCharts-legendList {padding-left: 0px;}
         <input type="hidden" name="seat" id ="seatchose" value ="">
         <input type="hidden" name="dorm" value="2">
 	<div class="demo"> 
-       <div id="seat-map"></div> 
+       <div id="seat-map" ></div> 
     </div> 
     <input type="submit" name="go">
     </form>
@@ -42,7 +42,7 @@ ul.seatCharts-legendList {padding-left: 0px;}
                     $seatChose = $('#seatchose'),
                     sc = $('#seat-map').seatCharts({
                     map: [
-                        'ff_ff',
+                        'ffff',
                         'ff_ff',
                         'ee_ee',
                         'ee_ee',

@@ -148,7 +148,7 @@ function delete_from_current($studentId){
 }
 function insert_into_history($current){
 	$conn = make_db_connection();
-	$result = $conn->query("INSERT INTO usehistory(studentId, seatId, startTime) VALUE ('{$current['studentId']}' , '{$current['seatId']}' , '{$current['starttime']}')");
+	$result = $conn->query("INSERT INTO usehistory(studentId, seatId, startTime) VALUE ('{$current['studentId']}' , '{$current['seatId']}' , '{$current['startTime']}')");
 }
 function check_temp_leave(){
 	$conn = make_db_connection();

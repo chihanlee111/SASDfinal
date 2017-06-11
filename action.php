@@ -36,7 +36,7 @@ else{//student 登入之後
 		case 'studentPickSeat':
 			if(get_student_current_status($_SESSION['studentId']) != null){
 					echo "Already have a seat";
-					header("location: status.php");//to_modify
+					header("location: #");//to_modify
 					exit();
 			}
 			$seat = get_seat_by_ColRow($_POST['dorm'] ,$_POST['seat']);
@@ -55,6 +55,7 @@ else{//student 登入之後
 			modify_seat_status($user['seatId'], "available");
 			delete_from_current($_SESSION['studentId']);
 			insert_into_history($user);
+			header("location: home.php");
 			break;
 		case 'studentTempLeave':
 			modify_user_status($_SESSION['studentId']);

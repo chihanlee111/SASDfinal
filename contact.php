@@ -45,7 +45,7 @@ check_temp_leave();
               <form action="action.php" method="post" id="logout_form">
                <input type="hidden" name="action" value="logout">
               </form>
-              <li><a href="status.php"><?php echo $student['studentId'] ?></a></li>
+              <li><a href="#"><?php echo $student['studentId'] ?></a></li>
               <li><a href="javascript:$('#logout_form').submit();">登出</a></li>
             <?php }else{?>
               <li><a href="login.php">登入</a></li>

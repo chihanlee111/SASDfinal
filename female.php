@@ -2,6 +2,9 @@
 require("function.php");
 $student =check_login(false);//if need to force login pass in true not for false
 check_temp_leave();
+if(! isset($_SESSION['studentId'])){
+  header("location: login.php");
+}
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +27,7 @@ check_temp_leave();
     
     <script src="/Scripts/AssetsBS3/ie-emulation-modes-warning.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.seat-charts.js"></script> 
 
     <style>
       body{
@@ -31,12 +35,36 @@ check_temp_leave();
         background-color: #ABD0CE;
       }
     </style>
+     <style type="text/css">
+div.seatCharts-cell {color: #182C4E;height: 25px;width: 25px;line-height: 25px;margin: 3px;float: left;text-align: center;outline: none;font-size: 13px;} 
+div.seatCharts-seat {color: #fff;cursor: pointer;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius: 5px;} 
+div.seatCharts-row {height: 35px;} 
+div.seatCharts-seat.available {background-color: #B9DEA0;} 
+div.seatCharts-seat.focused {background-color: #000000;border: none;} 
+div.seatCharts-seat.selected {background-color: #E6CAC4;} 
+div.seatCharts-seat.unavailable {background-color: #472B34;cursor: not-allowed;} 
+div.seatCharts-container {width: 400px;padding: 20px; margin-left: 20px;} 
+div.seatCharts-legend {padding-left: 0px;position: absolute;bottom: 16px;} 
+ul.seatCharts-legendList {padding-left: 0px;} 
+.seatCharts-legendItem{float:left; width:90px;margin-top: 10px;line-height: 2;} 
+.checkout-button {display: block;width:80px; height:24px; line-height:20px;margin: 10px auto;border:1px solid #999;font-size: 14px; cursor:pointer} 
+#selected-seats {max-height: 150px;overflow-y: auto;overflow-x: none;width: 200px;} 
+#selected-seats li{float:left; width:72px; height:26px; line-height:26px; border:1px solid #d3d3d3; background:#f7f7f7; margin:6px; font-size:14px; font-weight:bold; text-align:center} 
+    </style>
   
  
   </head>
 
   <body>
-
+ <?php 
+  $status = get_student_current_status($_SESSION['studentId']);
+  if($status==null){
+    echo "<input type='hidden' name='status' value='noseat' id='status'>";
+  }
+  else if($status != null){
+    echo "<input type='hidden' name='status' value='haveseat' id='status'>";
+  }
+   ?>
     <div class="container">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <nav>
@@ -45,7 +73,7 @@ check_temp_leave();
               <form action="action.php" method="post" id="logout_form">
                <input type="hidden" name="action" value="logout">
               </form>
-              <li><a href="status.php"><?php echo $student['studentId'] ?></a></li>
+              <li><a href="#"><?php echo $student['studentId'] ?></a></li>
               <li><a href="javascript:$('#logout_form').submit();">登出</a></li>
             <?php }else{?>
               <li><a href="login.php">登入</a></li>
@@ -114,59 +142,19 @@ check_temp_leave();
         <center>
           <div style="margin-top: 100px">
             <h1 style="color:#C71585">女宿座位圖</h1><br><br>
-            <form action="/seat.php" method="post">
-              <input type="button" id="1" onclick="female_seat(1)" value=" 1 ">
-              <input type="button" id="2" onclick="female_seat(2)" value=" 2 ">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="3" onclick="female_seat(3)" value=" 3 ">
-              <input type="button" id="4" onclick="female_seat(4)" value=" 4 ">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="5" onclick="female_seat(5)" value=" 5 ">
-              <input type="button" id="6" onclick="female_seat(6)" value=" 6 ">
-              <br><br>
-              <input type="button" id="7" onclick="female_seat(7)" value=" 7 ">
-              <input type="button" id="8" onclick="female_seat(8)" value=" 8 ">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="9" onclick="female_seat(9)" value=" 9 ">
-              <input type="button" id="10" onclick="female_seat(10)" value="10">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="11" onclick="female_seat(11)" value="11">
-              <input type="button" id="12" onclick="female_seat(12)" value="12">
-              <br><br>
-              <input type="button" id="13" onclick="female_seat(13)" value="13">
-              <input type="button" id="14" onclick="female_seat(14)" value="14">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="15" onclick="female_seat(15)" value="15">
-              <input type="button" id="16" onclick="female_seat(16)" value="16">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="17" onclick="female_seat(17)" value="17">
-              <input type="button" id="18" onclick="female_seat(18)" value="18">
-              <br><br>
-              <input type="button" id="19" onclick="female_seat(19)" value="19">
-              <input type="button" id="20" onclick="female_seat(20)" value="20">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="21" onclick="female_seat(21)" value="21">
-              <input type="button" id="22" onclick="female_seat(22)" value="22">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="23" onclick="female_seat(23)" value="23">
-              <input type="button" id="24" onclick="female_seat(24)" value="24">
-              <br><br>
-              <input type="button" id="25" onclick="female_seat(25)" value="25">
-              <input type="button" id="26" onclick="female_seat(26)" value="26">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="27" onclick="female_seat(27)" value="27">
-              <input type="button" id="28" onclick="female_seat(28)" value="28">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-              <input type="button" id="29" onclick="female_seat(29)" value="29">
-              <input type="button" id="30" onclick="female_seat(30)" value="30">
-              <br><br><br>
-              <input type="button" id="choose" onclick="choose()" value="選取座位">
+             <form action="action.php" method="post" id = "tosendform">
+        <input type="hidden" name="action" id="action" value="studentPickSeat">
+        <input type="hidden" name="seat" id ="seatchose" value ="">
+        <input type="hidden" name="dorm" value="3">
+  <div class="demo"> 
+       <div id="seat-map"></div> 
+    </div> 
+    <input type="button" id="choose" onclick="choseAction(this)" value="選取座位">
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input type="button" id="leave" onclick="leave()" value="暫時離開">
+              <input type="button" id="leave" onclick="choseAction(this)" value="暫時離開">
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input type="button" id="cancel" onclick="cancel()" value="取消座位">
-
-            </form>
+              <input type="button" id="cancel" onclick="choseAction(this)" value="取消座位">
+    </form>
           </div>
         
       </div>
@@ -182,5 +170,132 @@ check_temp_leave();
 
  
     <script src="/Scripts/AssetsBS3/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript">
+            var firstSeatLabel  = 1;
+            var dorm = 2;
+            $(document).ready(function() {
+                var $cart = $('#selected-seats'),
+                    $counter = $('#counter'),
+                    $total = $('#total'),
+                    $seatChose = $('#seatchose'),
+                    sc = $('#seat-map').seatCharts({
+                    map: [
+                        'ffff_ffff',
+                        'ffff_ffff',
+                        '',
+                        'ffff_ffff',
+                        'ffff_ffff',
+                    ],
+                    naming : {
+                        top : false,
+                        getLabel : function (character, row, column) {
+                            return firstSeatLabel++;
+                        },
+                    },
+                    legend : {
+                        node : $('#legend'),
+                        items : [
+                            [ 'f', 'available',   'First Class' ],
+                            [ 'e', 'available',   'Economy Class'],
+                            [ 'f', 'unavailable', 'Already Booked']
+                        ]                   
+                    },
+                    click: function () {
+                        if (this.status() == 'available') {
+                            if($seatChose.val() != ""){
+                                sc.status($seatChose.val(),'available');
+                            }
+                            $seatChose.val(this.node().attr('id'));
+                            return 'selected';
+                        } else if (this.status() == 'selected') {
+                            $seatChose.val("");
+                            return 'available';
+                        } else if (this.status() == 'unavailable') {
+                            //seat has been already booked
+                            return 'unavailable';
+                        } else {
+                            return this.style();
+                        }
+                    }
+                });
+
+                //this will handle "[cancel]" link clicks
+                $('#selected-seats').on('click', '.cancel-cart-item', function () {
+                    //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
+                    sc.get($(this).parents('li:first').data('seatId')).click();
+                });
+                updateSeatList(sc);
+                //let's pretend some seats have already been booked
+        
+        });
+
+        function recalculateTotal(sc) {
+            var total = 0;
+        
+            //basically find every selected seat and sum its price
+            sc.find('selected').each(function () {
+                total += this.data().price;
+            });
+            
+            return total;
+        }
+        function updateSeatList(sc){
+            var xhttp = new XMLHttpRequest();
+            var parm = "action=getSeatList&dorm=3";
+            xhttp.open("POST", "action.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(parm);
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var seatList = JSON.parse(this.responseText);
+                    console.log(this.responseText);
+                    sc.get(seatList).status('unavailable');
+                    console.log(seatList.length);//unavailable seat count
+                }
+            };
+        }
+        function choseAction(input){
+          var action = document.getElementById('action');
+          var form = document.getElementById('tosendform');
+          if(input.value == '選取座位'){
+            action.value = 'studentPickSeat';
+
+          }else if (input.value == '暫時離開'){
+            action.value = 'studentTempLeave';
+
+          }
+          else if(input.value == '取消座位'){
+            action.value = 'studentLeaveSeat';
+
+          }
+          checkForm();
+        }
+        function checkForm(){
+          var action = document.getElementById('action');
+          var choseSeat = document.getElementById('seatchose');
+          var status = document.getElementById('status');
+          if(action.value == 'studentPickSeat'){
+              if(choseSeat.value ==''){
+                alert("請先選座位");
+              }
+              else if(status.value == 'haveseat'){
+                alert("已經有位子了");
+                exit();
+              }
+              if(choseSeat.value != ''){document.getElementById('tosendform').submit();}
+          }else if (action.value =='studentTempLeave'){
+              if(status.value =='noseat'){
+                 alert("請先選座位");
+              }else{document.getElementById('tosendform').submit();}
+          }
+          else if (action.value == 'studentLeaveSeat'){
+              if(status.value =='noseat'){
+                 alert("請先選座位");
+              }else{document.getElementById('tosendform').submit();}
+          }
+        }
+        
+
+</script>
   </body>
 </html>
