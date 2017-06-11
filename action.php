@@ -7,7 +7,6 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 				header("Location: login.php");
 			}
 			$student = get_student_by_id_password($_POST['studentId'], $_POST['password']);
-
 			break;
 		case 'register'://register
 			// $student = register($_POST['studentId'], $_POST['email'], $_POST['password'], $_POST['studentClass'] ,$_POST['studentName'] , $_POST['re_password']);
@@ -16,13 +15,6 @@ if(!isset($_SESSION['studentId'])){//student 登入之前
 		case 'getSeatList':
 			echo get_unavailable_seat_list($_POST['dorm']);
 			exit();
-		case 'getSeatCount':
-			$all2seat = 100;
-			$all3seat = 100;
-			$seat_2_count = $all2seat - get_unavailable_seat_list('2');
-			$seat_3_count = $all3seat - get_unavailable_seat_list('3');
-			$countList = array($seat_2_count , $seat_3_count);
-			echo json_encode($countList);
 	}
 	$_SESSION['studentId']= $student['studentId'];
 	echo "success";
@@ -36,7 +28,7 @@ else{//student 登入之後
 		case 'studentPickSeat':
 			if(get_student_current_status($_SESSION['studentId']) != null){
 					echo "Already have a seat";
-					header("location: #");//to_modify
+					header("location: home.php");//to_modify
 					exit();
 			}
 			$seat = get_seat_by_ColRow($_POST['dorm'] ,$_POST['seat']);
@@ -47,6 +39,7 @@ else{//student 登入之後
 			}
 			modify_seat_status($seat['seatId'], "taken");
 			insert_into_current($seat['seatId'], $_SESSION['studentId']);
+			header("location: home.php");
 			break;
 		case 'studentLeaveSeat':
 			if(($user = get_student_current_status($_SESSION['studentId']))==null){
@@ -58,24 +51,17 @@ else{//student 登入之後
 			header("location: home.php");
 			break;
 		case 'studentTempLeave':
-			modify_user_status($_SESSION['studentId']);
+			modify_user_status($_SESSION['studentId'] , 3);
 			header("location: home.php");
 			break;
 		case 'tempLeaveBack':
-			modify_user_status($_SESSION['studentId']);
+			modify_user_status($_SESSION['studentId'] , 0);
 			header("location: home.php");
 			break;
 		case 'getSeatList':
 			$seatJson = get_unavailable_seat_list($_POST['dorm']);
 			echo $seatJson;
 			exit();
-		case 'getSeatCount':
-			$all2seat = 100;
-			$all3seat = 100;
-			$seat_2_count = $all2seat - get_unavailable_seat_list('2');
-			$seat_3_count = $all3seat - get_unavailable_seat_list('3');
-			$countList = array($seat_2_count , $seat_3_count);
-			echo json_encode($countList);
 		case 'logout':
 			 unset($_SESSION['studentId']);
 			 header('location: login.php');

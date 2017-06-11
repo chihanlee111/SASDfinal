@@ -49,7 +49,7 @@ check_temp_leave();
               <li><a href="#"><?php echo $student['studentId'] ?></a></li>
               <li><a href="javascript:$('#logout_form').submit();">登出</a></li>
             <?php }else{?>
-              <li><a href="login.php">登入</a></li>
+              <li><a href="#">登入</a></li>
               <li><a href="register.php">註冊</a></li>
             <?php }?>
           </ul>
@@ -113,15 +113,16 @@ check_temp_leave();
       <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 div2">
         <center>
           <div style="margin-top: 100px">
+           <h4 style="color:red;"><?php show_error(); ?></h4>
             <form action="action.php" method="post">
               <label for="studentid">studentID</label>
               <br>
               <input type="hidden" name="action" value="log_in">
-              <input type="text" name="studentId" placeholder="輸入學號">
+              <input type="text" name="studentId" placeholder="輸入學號" pattern=".{8,9}" required title="EX. B10000001">
               <br>
               <label for="password">password</label>
               <br>
-              <input type="password" name="password" placeholder="密碼">
+              <input type="password" name="password" placeholder="密碼" pattern=".{6,16}" required title="輸入6到16位的密碼">
               <br><br>
               <button type="submit">submit</button>
             </form>

@@ -275,11 +275,12 @@ ul.seatCharts-legendList {padding-left: 0px;}
           var choseSeat = document.getElementById('seatchose');
           var status = document.getElementById('status');
           if(action.value == 'studentPickSeat'){
-              if(choseSeat.value ==''){
-                alert("請先選座位");
-              }
-              else if(status.value == 'haveseat'){
+             
+               if(status.value == 'haveseat'){
                 alert("已經有位子了");
+                exit();
+              } else if(choseSeat.value ==''){
+                alert("請先選座位");
                 exit();
               }
               if(choseSeat.value != ''){document.getElementById('tosendform').submit();}

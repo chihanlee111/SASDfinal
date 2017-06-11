@@ -8,10 +8,11 @@ function make_db_connection(){
 	}
 	return $conn;
 }
-function show_error($message) {
-    $_SESSION['message'] = $message;
-    header('location:/error.php');
-    exit();
+function show_error() {
+    if(isset($_SESSION['message'])){
+    	echo $_SESSION['message'];
+    	unset($_SESSION['message']);
+    }
 }
 function check_login($force){//force is true if need to force login
 	if(!isset($_SESSION['studentId'])){
@@ -30,11 +31,13 @@ function get_student_by_id_password($studentId, $password){//use for login
 	$student = $result->fetch_assoc();
 	if(!$student){
 		if(get_student_by_studentId($studentId) ==null){
-			return ['message' => "EMAIL WRONG OR ACCOUNT NOT EXIST"];
+			$_SESSION['message'] = "學號輸入錯誤或尚未註冊";
 		}
 		else{
-			return ['message' => "PASSWORD WRONG"];
+			$_SESSION['message'] = "密碼輸入錯誤";
 		}
+		header("location: login.php");
+		die("email or password wrong");
 	}
 	return $student;
 }
@@ -54,13 +57,19 @@ function get_student_by_studentId($studentId){
 }
 function register($studentId, $email, $password, $re_password){
 	if($password != $re_password){
-		return ['message' => "PASSWORD NOT MATCH"];
+		$_SESSION['message'] = "密碼不一致";
 	}
 	//do pattern check
 	$conn = make_db_connection();
 	if(get_student_by_email($email) !=null){
-		//email is taken
-		return ['message' => "EMAIL ALREADY EXISTED"];
+		$_SESSION['message'] = "email 已註冊";
+	}
+	if(get_student_by_studentId($studentId) != null){
+		$_SESSION['message'] = "學號已註冊";
+	}
+	if(isset($_SESSION['message'])){
+		header("location: register.php");
+		die("register error");
 	}
 	$sql = "INSERT INTO student(studentId , email, password) VALUE('$studentId' , '$email', '$password')";
 	$result = $conn->query($sql);
@@ -125,7 +134,7 @@ function modify_seat_status($seatId, $seatStatus){//seatstatus <available or tak
 	$result=$conn->query("UPDATE seat SET status='$status' WHERE seatId='$seatId'");
 	return true;
 }
-function modify_user_status($studentId){
+function modify_user_status($studentId , $status){
 	$conn = make_db_connection();
 	$result = $conn->query("UPDATE currentuser SET status='$status' WHERE studentId='$studentId' ");
 }
@@ -152,12 +161,14 @@ function insert_into_history($current){
 }
 function check_temp_leave(){
 	$conn = make_db_connection();
-	$result = $conn->query("SELECT * FROM currentuser WHERE status = '3';");//status code is not sure
+	$result = $conn->query("SELECT * FROM `currentuser` WHERE status='3'AND startTime < now() - INTERVAL 60 MINUTE");
+	if($result ==false){
+		return;
+	}
 	while($user = $result->fetch_assoc()){
-		if($user['status'] == 1 AND false){//currenttime - startime >= An hour
-			modify_seat_status($seatId,"available");
-			delete_from_current($studentId);
-		}
+			modify_seat_status($user['seatId'],"available");
+			delete_from_current($user['studentId']);
+			insert_into_history($user);
 	}
 }
  ?>
