@@ -61,9 +61,9 @@ ul.seatCharts-legendList {padding-left: 0px;}
   if($status==null){
     echo "<input type='hidden' name='status' value='noseat' id='status'>";
   }
-  else if($status != null){
-    echo "<input type='hidden' name='status' value='haveseat' id='status'>";
-  }
+  else if($status['status'] ==3){
+    echo "<input type='hidden' name='status' value='templeave' id='status'>";
+  }else{echo "<input type='hidden' name='status' value='haveseat' id='status'>";}
    ?>
     <div class="container">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -141,14 +141,17 @@ ul.seatCharts-legendList {padding-left: 0px;}
             <h1 style="color: blue">男宿座位圖</h1><br><br>
             <form action="action.php" method="post" id = "tosendform">
         <input type="hidden" name="action" id="action" value="studentPickSeat">
+        <input type="hidden" name="from" value="male">
         <input type="hidden" name="seat" id ="seatchose" value ="">
         <input type="hidden" name="dorm" value="2">
   <div class="demo"> 
        <div id="seat-map"></div> 
     </div> 
-    <input type="button" id="choose" onclick="choseAction(this)" value="選取座位">
+              <input type="button" id="choose" onclick="choseAction(this)" value="選取座位">
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input type="button" id="leave" onclick="choseAction(this)" value="暫時離開">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <input type="button" id="choose" onclick="choseAction(this)" value="取消暫離">
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input type="button" id="cancel" onclick="choseAction(this)" value="取消座位">
     </form>
@@ -168,7 +171,10 @@ ul.seatCharts-legendList {padding-left: 0px;}
     </div> 
 
 
- 
+ <script type="text/javascript"><?php if(isset($_SESSION['message'])){ ?>
+    <?php echo "alert('{$_SESSION['message']}')"; unset($_SESSION['message']); ?>
+<?php } ?>
+ </script>
     <script src="/Scripts/AssetsBS3/ie10-viewport-bug-workaround.js"></script>
     <script type="text/javascript">
             var firstSeatLabel  = 1;
@@ -259,10 +265,11 @@ ul.seatCharts-legendList {padding-left: 0px;}
           var form = document.getElementById('tosendform');
           if(input.value == '選取座位'){
             action.value = 'studentPickSeat';
-
           }else if (input.value == '暫時離開'){
             action.value = 'studentTempLeave';
 
+          }else if(input.value == '取消暫離'){
+            action.value = 'tempLeaveBack';
           }
           else if(input.value == '取消座位'){
             action.value = 'studentLeaveSeat';
@@ -275,8 +282,9 @@ ul.seatCharts-legendList {padding-left: 0px;}
           var choseSeat = document.getElementById('seatchose');
           var status = document.getElementById('status');
           if(action.value == 'studentPickSeat'){
+             
                if(status.value == 'haveseat'){
-                alert("已有預定的座位 , 請取消後再選位");
+                alert("已有預訂的座位 , 請取消後再選位");
                 exit();
               } else if(choseSeat.value ==''){
                 alert("請先選座位");
@@ -286,12 +294,21 @@ ul.seatCharts-legendList {padding-left: 0px;}
           }else if (action.value =='studentTempLeave'){
               if(status.value =='noseat'){
                  alert("請先選座位");
-              }else{document.getElementById('tosendform').submit();}
+              }else if(status.value=='templeave'){
+                alert("已登記暫時離開");
+              }
+              else{document.getElementById('tosendform').submit();}
           }
           else if (action.value == 'studentLeaveSeat'){
               if(status.value =='noseat'){
                  alert("請先選座位");
               }else{document.getElementById('tosendform').submit();}
+          }else if (action.value == 'tempLeaveBack'){
+              if(status.value == 'noseat'){
+                alert("請先選座位");
+              }else if(status.value =='templeave'){
+                document.getElementById('tosendform').submit();
+              }else{ alert("已取消暫離");}
           }
         }
         

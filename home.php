@@ -132,7 +132,10 @@ check_temp_leave();
 
     </div> 
 
-
+ <script type="text/javascript"><?php if(isset($_SESSION['message'])){ ?>
+    <?php echo "alert('{$_SESSION['message']}')"; unset($_SESSION['message']); ?>
+<?php } ?>
+ </script>
     <script>
     updateSeatList(null , '2');
     updateSeatList(null , '3');

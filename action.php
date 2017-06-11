@@ -27,36 +27,49 @@ else{//student 登入之後
 			break;
 		case 'studentPickSeat':
 			if(get_student_current_status($_SESSION['studentId']) != null){
-					echo "Already have a seat";
-					header("location: home.php");//to_modify
+					$_SESSION['message'] = "已登記座位";
+					header("location: ".$_POST['from'].".php");
 					exit();
 			}
 			$seat = get_seat_by_ColRow($_POST['dorm'] ,$_POST['seat']);
-			if($seat['status'] =='0'){//seat is been taken
-				echo "request time out";
-				header("location: home.php");
+			if($seat['status'] =='0'){
+				$_SESSION['message'] = "座位已被登記 , 請選擇其他座位";
+				header("location: ".$_POST['from'].".php");
 				exit();
 			}
 			modify_seat_status($seat['seatId'], "taken");
 			insert_into_current($seat['seatId'], $_SESSION['studentId']);
-			header("location: home.php");
+			$_SESSION['message'] = "座位登記成功";
+			header("location: ".$_POST['from'].".php");
 			break;
 		case 'studentLeaveSeat':
 			if(($user = get_student_current_status($_SESSION['studentId']))==null){
-				echo "You have not take a seat";
+				$_SESSION['message'] = "尚未登記座位";
+				header("location: ".$_POST['from'].".php");
+				die();
 			}
 			modify_seat_status($user['seatId'], "available");
 			delete_from_current($_SESSION['studentId']);
 			insert_into_history($user);
-			header("location: home.php");
+			$_SESSION['message'] = "已取消座位";
+			header("location: ".$_POST['from'].".php");
 			break;
 		case 'studentTempLeave':
+			if(get_student_current_status($_SESSION['studentId'])['status']==3){
+				$_SESSION['message'] = "已登記暫時離開";
+				header("location: ".$_POST['from'].".php");
+				die();
+			}
 			modify_user_status($_SESSION['studentId'] , 3);
-			header("location: home.php");
+			update_temp_time($_SESSION['studentId'] , 'NOW');
+			$_SESSION['message'] = "已登記暫時離開";
+			header("location: ".$_POST['from'].".php");
 			break;
 		case 'tempLeaveBack':
 			modify_user_status($_SESSION['studentId'] , 0);
-			header("location: home.php");
+			update_temp_time($_SESSION['studentId'] , 'NULL');
+			$_SESSION['message'] = "已取消暫離";
+			header("location: ".$_POST['from'].".php");
 			break;
 		case 'getSeatList':
 			$seatJson = get_unavailable_seat_list($_POST['dorm']);
@@ -64,7 +77,8 @@ else{//student 登入之後
 			exit();
 		case 'logout':
 			 unset($_SESSION['studentId']);
-			 header('location: login.php');
+			 $_SESSION['message'] = "登出成功";
+			 header('location: home.php');
 			break;
 		default:
 			header('Location: error.php');

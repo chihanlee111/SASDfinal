@@ -138,6 +138,17 @@ function modify_user_status($studentId , $status){
 	$conn = make_db_connection();
 	$result = $conn->query("UPDATE currentuser SET status='$status' WHERE studentId='$studentId' ");
 }
+function update_temp_time($studentId , $case){
+	$conn = make_db_connection();
+	switch($case){
+		case 'NOW':
+			$conn->query("UPDATE currentuser SET tempTime=NOW() WHERE studentId='$studentId';");
+			break;
+		case 'NULL':
+			$conn->query("UPDATE currentuser SET tempTime = NULL WHERE studentId='$studentId';");
+			break;
+	}
+}
 function insert_into_current($seatId, $studentId){//not yet define status.
 	$conn = make_db_connection();
 	$sql = "INSERT INTO currentuser(studentId , seatId , status) VALUE ('$studentId' , '$seatId', '0')";
