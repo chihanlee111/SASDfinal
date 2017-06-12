@@ -140,8 +140,8 @@ check_temp_leave();
     updateSeatList(null , '2');
     updateSeatList(null , '3');
       function updateSeatList(sc , dorm){
-            var dorm2_allseat = 30;
-            var dorm3_allseat = 30;
+            var dorm2_allseat = 32;
+            var dorm3_allseat = 32;
             var xhttp = new XMLHttpRequest();
             var parm = "action=getSeatList&dorm="+dorm;
             xhttp.open("POST", "action.php", true);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2017-06-04 11:26:35
+-- 產生時間： 2017-06-12 02:06:30
 -- 伺服器版本: 10.1.21-MariaDB
 -- PHP 版本： 5.6.30
 
@@ -30,7 +30,8 @@ CREATE TABLE `currentuser` (
   `studentId` varchar(20) NOT NULL,
   `seatId` int(11) NOT NULL,
   `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `tempTime` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -45,13 +46,6 @@ CREATE TABLE `seat` (
   `status` int(11) NOT NULL,
   `dorm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- 資料表的匯出資料 `seat`
---
-
-INSERT INTO `seat` (`seatId`, `seatColRow`, `status`, `dorm`) VALUES
-(2, '1-1', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -96,7 +90,7 @@ ALTER TABLE `seat`
 -- 使用資料表 AUTO_INCREMENT `seat`
 --
 ALTER TABLE `seat`
-  MODIFY `seatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `seatId` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -284,7 +284,7 @@ ul.seatCharts-legendList {padding-left: 0px;}
           var status = document.getElementById('status');
           if(action.value == 'studentPickSeat'){
              
-               if(status.value == 'haveseat'){
+               if(status.value == 'haveseat' || status.value == 'templeave'){
                 alert("已有預訂的座位 , 請取消後再選位");
                 exit();
               } else if(choseSeat.value ==''){
@@ -307,7 +307,7 @@ ul.seatCharts-legendList {padding-left: 0px;}
           }else if (action.value == 'tempLeaveBack'){
               if(status.value == 'noseat'){
                 alert("請先選座位");
-              }else if(status.value =='templeave'){
+              }else if(status.value=='templeave'){
                 document.getElementById('tosendform').submit();
               }else{ alert("已取消暫離");}
           }

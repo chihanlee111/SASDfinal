@@ -283,7 +283,7 @@ ul.seatCharts-legendList {padding-left: 0px;}
           var status = document.getElementById('status');
           if(action.value == 'studentPickSeat'){
              
-               if(status.value == 'haveseat'){
+               if(status.value == 'haveseat' || status.value == 'templeave'){
                 alert("已有預訂的座位 , 請取消後再選位");
                 exit();
               } else if(choseSeat.value ==''){
